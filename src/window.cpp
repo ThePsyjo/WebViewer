@@ -167,6 +167,7 @@ void MainWindow::handleTrayIcon(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::handleExit()
 {
+	config->saveWinSize(size());
 	QApplication::exit();
 }
 
