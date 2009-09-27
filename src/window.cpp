@@ -89,6 +89,7 @@ MainWindow::MainWindow( QWidget * parent, Qt::WFlags f)
 
 	restoreState(config->loadState());
 
+	resize(config->loadWinSize());
 	show();
 	reload();
 }
@@ -143,9 +144,15 @@ void MainWindow::handleTrayIcon(QSystemTrayIcon::ActivationReason reason)
         {
                 case QSystemTrayIcon::Trigger:
                         if(isVisible())
+			{
+				config->saveWinSize(size());
                                 hide();
+			}
                         else
+			{
                                 show();
+				resize(config->loadWinSize());
+			}
                         break;
                 case QSystemTrayIcon::Context:
                         break;
@@ -165,6 +172,7 @@ void MainWindow::handleExit()
 
 void MainWindow::closeEvent ( QCloseEvent *event )
 {
+	config->saveWinSize(size());
         event->accept();
 	// dummy, close win and do nothing else
 }

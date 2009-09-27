@@ -138,6 +138,20 @@ QByteArray ConfigHandler::loadState()
 	return ba;
 }
 
+//WidgetSize///////////////////////////////////////////////////////////////////////
+
+void ConfigHandler::saveWinSize(QSize s)
+{	
+	genTag ( doc->documentElement(), "WindowSettings" ).setAttribute("height", s.rheight());
+	genTag ( doc->documentElement(), "WindowSettings" ).setAttribute("width", s.rwidth());
+}
+
+QSize ConfigHandler::loadWinSize()
+{
+	return QSize (genTag ( doc->documentElement(), "WindowSettings" ).attribute("width").toInt(), genTag ( doc->documentElement(), "WindowSettings" ).attribute("height").toInt() );
+}
+
+
 //userName/////////////////////////////////////////////////////////////////////////
 
 void ConfigHandler::saveUserName(QString s)

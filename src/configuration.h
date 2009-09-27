@@ -78,6 +78,9 @@ public:
 	void loadLink(QList<Link>*);
 	void delLink(QString);
 
+	QSize loadWinSize();
+	void saveWinSize(QSize);
+
 public slots:
 	void saveFile();
 };
