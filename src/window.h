@@ -68,7 +68,6 @@ private:
 	void createWidget(int);
 	void delWidget(int);
 	bool created;
-	QSize winSize;
 private slots:
 	void reload();
 	void popReload();
