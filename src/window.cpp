@@ -24,14 +24,13 @@ MainWindow::MainWindow( QWidget * parent, Qt::WFlags f)
 {
 	setWindowTitle(QApplication::applicationName() +" "+ QApplication::applicationVersion());
 
-	config = new ConfigHandler(QDir::toNativeSeparators(QDir::homePath ()  + "/.w3v/w3v.xml"), "WWWViewer_configuration");
+	config = new ConfigHandler(QDir::toNativeSeparators(QDir::homePath ()  + "/.w3v/w3v.xml"), "WWWebViewer_configuration");
 
         setStyle(QStyleFactory::create(config->loadStyle()));
         if(! config->loadStyleSheet().isEmpty())
                 setStyleSheet(config->loadStyleSheet());
         else    setStyleSheet("* {}"); // without any stylesheet, windowstyles won't apply
 	
-	// alle dockvariationen zulassen
 	setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks | QMainWindow::AllowTabbedDocks | QMainWindow::VerticalTabs);
 
 	dummy = new QWidget(this);
@@ -271,16 +270,13 @@ void MainWindow::handleNewLink()
 
 void MainWindow::delWidget(int i)
 {
-//	qDebug() << "del " << widgetList->at(i)->objectName();	
 	removeDockWidget(widgetList->at(i));
 	widgetList->at(i)->deleteLater();
 	widgetList->removeAt(i);
-//	qDebug() << "done";
 }
 
 void MainWindow::createWidget(int pos)
 {
-//qDebug() << "creating...";
 	created = false;
 	if (links->at(pos).widgetType == "NagVisWidget" )
 	{
@@ -300,11 +296,9 @@ void MainWindow::createWidget(int pos)
 
 	if(created)
 	{
-//	qDebug() << "create " << links->at(pos).name;	
 		addDockWidget(Qt::TopDockWidgetArea, widgetList->at(pos));
 		widgetList->at(pos)->setObjectName(links->at(pos).name);
 		connect(widgetList->at(pos), SIGNAL(done()), this, SLOT(popReload()));
-//	qDebug() << "done";
 	}
 }
 
