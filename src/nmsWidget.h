@@ -25,7 +25,7 @@ class NmsWidget : public WebWidget
 {
 Q_OBJECT
 public:
-	NmsWidget(QString, QUrl, QWidget * parent = 0);
+	NmsWidget(QString, QUrl, ConfigHandler*, QWidget * parent = 0);
 	~NmsWidget();
 private:
 //	QString urlString;

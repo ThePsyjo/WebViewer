@@ -18,11 +18,13 @@
 
 #include "genericWidget.h"
 
-GenericWidget::GenericWidget(QString name, QUrl u, QWidget * parent)
+GenericWidget::GenericWidget(QString name, QUrl u, ConfigHandler* c, QWidget * parent)
         : WebWidget(name, parent)
 {
+	config = c;
 	*url = u;
 	webView->load(u);
+	webView->setZoomFactor(config->loadZoomFactor(objectName()));
 }
 
 GenericWidget::~GenericWidget()

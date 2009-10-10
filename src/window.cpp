@@ -289,17 +289,17 @@ void MainWindow::createWidget(int pos)
 	created = false;
 	if (links->at(pos).widgetType == "NagVisWidget" )
 	{
-		widgetList->insert(pos, new NagVisWidget (links->at(pos).name, links->at(pos).url, this));
+		widgetList->insert(pos, new NagVisWidget (links->at(pos).name, links->at(pos).url, config, this));
 		created = true;
 	}
 	if (links->at(pos).widgetType == "NmsWidget" )
 	{
-		widgetList->insert(pos, new NmsWidget (links->at(pos).name, links->at(pos).url, this));
+		widgetList->insert(pos, new NmsWidget (links->at(pos).name, links->at(pos).url, config, this));
 		created = true;
 	}
 	if (links->at(pos).widgetType == "generic" )
 	{
-		widgetList->insert(pos, new GenericWidget (links->at(pos).name, links->at(pos).url, this));
+		widgetList->insert(pos, new GenericWidget (links->at(pos).name, links->at(pos).url, config, this));
 		created = true;
 	}
 

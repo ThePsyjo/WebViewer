@@ -81,6 +81,9 @@ public:
 	QSize loadWinSize();
 	void saveWinSize(QSize);
 
+	qreal loadZoomFactor(QString);
+	void saveZoomFactor(QString, qreal);
+
 public slots:
 	void saveFile();
 };

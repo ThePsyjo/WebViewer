@@ -22,6 +22,8 @@
 #include <QDockWidget>
 #include <QWebView>
 #include <QUrl>
+#include <QKeyEvent>
+#include "configuration.h"
 
 class WebWidget : public QDockWidget
 {
@@ -30,11 +32,14 @@ public:
 	WebWidget(QString, QWidget * parent = 0);
 	~WebWidget();
 protected:
+	ConfigHandler *config;
 	QWebView *webView;
 	QUrl *url;
 public slots:
 	void webViewDone(bool);
 	virtual void reload(){};
+private:
+	void keyPressEvent(QKeyEvent*);
 signals:
 	void done();
 };

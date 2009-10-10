@@ -18,10 +18,12 @@
 
 #include "nmsWidget.h"
 
-NmsWidget::NmsWidget(QString name, QUrl u, QWidget * parent)
+NmsWidget::NmsWidget(QString name, QUrl u, ConfigHandler* c, QWidget * parent)
         : WebWidget(name, parent)
 {
+	config = c;
 	*url = u;
+	webView->setZoomFactor(config->loadZoomFactor(objectName()));
 }
 
 NmsWidget::~NmsWidget()

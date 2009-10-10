@@ -18,12 +18,14 @@
 
 #include "nagVisWidget.h"
 
-NagVisWidget::NagVisWidget(QString name, QUrl u, QWidget * parent)
+NagVisWidget::NagVisWidget(QString name, QUrl u, ConfigHandler* c, QWidget * parent)
         : WebWidget(name, parent)
 {
+	config = c;
 	urlString = u.toString(QUrl::RemoveUserInfo);
 	un = u.userName();
 	pa = u.password();
+	webView->setZoomFactor(config->loadZoomFactor(objectName()));
 }
 
 NagVisWidget::~NagVisWidget()

@@ -25,7 +25,7 @@ class GenericWidget : public WebWidget
 {
 Q_OBJECT
 public:
-	GenericWidget(QString, QUrl, QWidget * parent = 0);
+	GenericWidget(QString, QUrl, ConfigHandler*, QWidget * parent = 0);
 	~GenericWidget();
 public slots:
 	void reload();

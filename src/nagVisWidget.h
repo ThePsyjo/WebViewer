@@ -25,7 +25,7 @@ class NagVisWidget : public WebWidget
 {
 Q_OBJECT
 public:
-	NagVisWidget(QString, QUrl, QWidget * parent = 0);
+	NagVisWidget(QString, QUrl, ConfigHandler*, QWidget * parent = 0);
 	~NagVisWidget();
 private:
 	QString urlString, un, pa;

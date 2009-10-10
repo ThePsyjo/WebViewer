@@ -29,6 +29,22 @@ WebWidget::WebWidget(QString name, QWidget * parent)
 	url = new QUrl;
 
 	setWidget(webView);
+
+//	webView->setZoomFactor(config->loadZoomFactor(objectName()));
+}
+
+void WebWidget::keyPressEvent(QKeyEvent* e)
+{
+	if( e->text() == "+" || e->text() == "-" || e->text() == "0" )
+	{
+		if( e->text() == "+" ) webView->setZoomFactor(webView->zoomFactor() + .05);
+		else
+		if( e->text() == "-" ) webView->setZoomFactor(webView->zoomFactor() - .05);
+		else
+		if( e->text() == "0" ) webView->setZoomFactor(1);
+
+		config->saveZoomFactor(objectName(), webView->zoomFactor());
+	}
 }
 
 WebWidget::~WebWidget()

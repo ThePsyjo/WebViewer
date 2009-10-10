@@ -238,3 +238,15 @@ void ConfigHandler::delLink(QString s)
 {
 	genTag(doc->documentElement(), "Links").removeChild(genTag(genTag(doc->documentElement(), "Links"), s));
 }
+
+//ZoomFactor///////////////////////////////////////////////////////////////////////
+
+qreal ConfigHandler::loadZoomFactor(QString name)
+{
+	return genTag ( genTag ( doc->documentElement(), "Links" ), name ).attribute("zoom", "1").toDouble();
+}
+
+void ConfigHandler::saveZoomFactor(QString name, qreal val)
+{
+	genTag ( genTag ( doc->documentElement(), "Links" ), name ).setAttribute("zoom", val);
+}
