@@ -31,6 +31,7 @@ ConfigHandler::ConfigHandler(QString fileLocation, QString fileName)
 	doc = new QDomDocument ( fileName );
 	f = new QFile (fileLocation);
 	timer = new QTimer(this);
+	tmpE = new QDomElement;
 	doSave = true;
 
 	f->open( QIODevice::ReadOnly );
@@ -100,6 +101,30 @@ QString ConfigHandler::loadStyleSheet()
 	return genTag(doc->documentElement(), "Style").text();
 }
 
+bool ConfigHandler::findLink(QString name)
+{
+	QDomNodeList l;
+	l = genTag ( doc->documentElement(), "Links" ).childNodes();
+	bool found = false;
+
+	for (cnt=0;cnt<l.size();cnt++)
+	{
+		if(l.at(cnt).toElement().attribute("name", "") == name)
+		{
+			*tmpE = l.at(cnt).toElement();
+			found = true;
+		}
+	}
+	if(found) return true;
+	else return false;
+}
+
+QDomNode* ConfigHandler::findLinkR(QString name)
+{
+	findLink(name);
+	return tmpE;
+}
+
 //WindowStyle//////////////////////////////////////////////////////////////////////
 QString ConfigHandler::loadStyle()
 {
@@ -151,35 +176,6 @@ QSize ConfigHandler::loadWinSize()
 	return QSize (genTag ( doc->documentElement(), "WindowSettings" ).attribute("width").toInt(), genTag ( doc->documentElement(), "WindowSettings" ).attribute("height").toInt() );
 }
 
-
-//userName/////////////////////////////////////////////////////////////////////////
-
-void ConfigHandler::saveUserName(QString s)
-{	
-	genTag ( doc->documentElement(), "Options" ).setAttribute("uName", qCompress(s.toAscii()).toHex().data());
-}
-
-QString ConfigHandler::loadUserName()
-{
-	QByteArray ba;
-	ba = qUncompress(QByteArray::fromHex(QByteArray( genTag ( doc->documentElement(), "Options" ).attribute("uName").toAscii())));
-	return QString::fromAscii(ba);
-}
-
-//Password/////////////////////////////////////////////////////////////////////////
-
-void ConfigHandler::savePassword(QString s)
-{	
-	genTag ( doc->documentElement(), "Options" ).setAttribute("Pass", qCompress(s.toAscii()).toHex().data());
-}
-
-QString ConfigHandler::loadPassword()
-{
-	QByteArray ba;
-	ba = qUncompress(QByteArray::fromHex(QByteArray( genTag ( doc->documentElement(), "Options" ).attribute("Pass").toAscii())));
-	return QString::fromAscii(ba);
-}
-
 //reloadInterval///////////////////////////////////////////////////////////////////
 void ConfigHandler::saveReloadInterval(int i)
 {
@@ -194,21 +190,25 @@ int ConfigHandler::loadReloadInterval()
 //Links////////////////////////////////////////////////////////////////////////////
 void ConfigHandler::saveLink(Link l)
 {
-	genTag ( genTag ( doc->documentElement(), "Links" ), l.name).setAttribute("data", qCompress(l.url.toString().toAscii()).toHex().data());
-	genTag ( genTag ( doc->documentElement(), "Links" ), l.name).setAttribute("type", qCompress(l.widgetType.toAscii()).toHex().data());
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("name", l.name);
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("data", qCompress(l.url.toString().toAscii()).toHex().data());
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("type", qCompress(l.widgetType.toAscii()).toHex().data());
+
 }
 void ConfigHandler::saveLink(QString name, QUrl u, QString widgetType)
 {
-	genTag ( genTag ( doc->documentElement(), "Links" ), name).setAttribute("data", qCompress(u.toString().toAscii()).toHex().data());
-	genTag ( genTag ( doc->documentElement(), "Links" ), name).setAttribute("type", qCompress(widgetType.toAscii()).toHex().data());
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("name", name);
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("data", qCompress(u.toString().toAscii()).toHex().data());
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("type", qCompress(widgetType.toAscii()).toHex().data());
 }
 
 void ConfigHandler::saveLink(QString name, QString url, QString userName, QString pass, QString widgetType)
 {
 	QUrl u = url;
 	u.setUserInfo(QString("%1:%2").arg(userName).arg(pass));
-	genTag ( genTag ( doc->documentElement(), "Links" ), name).setAttribute("data", qCompress(u.toString().toAscii()).toHex().data());
-	genTag ( genTag ( doc->documentElement(), "Links" ), name).setAttribute("type", qCompress(widgetType.toAscii()).toHex().data());
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("name", name);
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("data", qCompress(u.toString().toAscii()).toHex().data());
+	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("type", qCompress(widgetType.toAscii()).toHex().data());
 }
 
 void ConfigHandler::loadLink(QList<Link> *l)
@@ -222,7 +222,7 @@ void ConfigHandler::loadLink(QList<Link> *l)
 	for (int i = 0; i < nl.count(); i++ )
 	{
 
-		link.name = nl.at(i).nodeName();
+		link.name = nl.at(i).toElement().attribute("name");
 
 		ba = qUncompress(QByteArray::fromHex(QByteArray( nl.at(i).toElement().attribute("data").toAscii())));
 		link.url = QString::fromAscii(ba);
@@ -236,17 +236,21 @@ void ConfigHandler::loadLink(QList<Link> *l)
 
 void ConfigHandler::delLink(QString s)
 {
-	genTag(doc->documentElement(), "Links").removeChild(genTag(genTag(doc->documentElement(), "Links"), s));
+	genTag(doc->documentElement(), "Links").removeChild(findLinkR(s)->toElement());
 }
 
 //ZoomFactor///////////////////////////////////////////////////////////////////////
 
 qreal ConfigHandler::loadZoomFactor(QString name)
 {
-	return genTag ( genTag ( doc->documentElement(), "Links" ), name ).attribute("zoom", "1").toDouble();
+	if(findLink(name))
+		return tmpE->attribute("zoom", "1").toDouble();
+	else
+		return 1;
 }
 
 void ConfigHandler::saveZoomFactor(QString name, qreal val)
 {
-	genTag ( genTag ( doc->documentElement(), "Links" ), name ).setAttribute("zoom", val);
+	if(findLink(name))
+		tmpE->setAttribute("zoom", val);
 }

@@ -31,7 +31,8 @@ StringInput::StringInput(QStringList l, QWidget* parent)
 	setModal(1);
 	list = l;
 
-	QRegExp rx("^[a-zA-Z][a-zA-Z0-9-_.]*");
+	QRegExp rx(".*");
+	//QRegExp rx("^[a-zA-Z][a-zA-Z0-9-_.]*");
 	validator = new QRegExpValidator(rx, this);
 	e = new QLineEdit(this);
 	e->show();

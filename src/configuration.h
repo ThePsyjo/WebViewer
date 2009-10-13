@@ -44,10 +44,14 @@ private:
 	QDomDocument *doc;
 	QFile *f;
 	QDomElement genTag(QDomElement, QString);
+	QDomElement *tmpE;
 	bool tagCreated, doSave, change;
 	QTimer *timer;
 	void saveBool(QString, QString, bool);
 	bool loadBool(QString, QString, QString);
+	bool findLink(QString);
+	QDomNode* findLinkR(QString);
+	int cnt;
 public:
 	ConfigHandler(QString, QString);
 	virtual ~ConfigHandler();
@@ -62,12 +66,6 @@ public:
 
 	void saveState(QByteArray);
 	QByteArray loadState();
-
-	void saveUserName(QString);
-	QString loadUserName();
-
-	void savePassword(QString);
-	QString loadPassword();
 
 	void saveReloadInterval(int);
 	int loadReloadInterval();
