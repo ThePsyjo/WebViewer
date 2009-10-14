@@ -64,6 +64,7 @@ ConfigHandler::ConfigHandler(QString fileLocation, QString fileName)
 		f->copy(fileLocation + ".bak");
 	}
 	f->close();
+	repairLinks();
 };
 
 void ConfigHandler::saveFile()
@@ -103,21 +104,28 @@ QString ConfigHandler::loadStyleSheet()
 
 void ConfigHandler::repairLinks()
 {
-/*
-	QDomNodeList l;
-	l = genTag ( doc->documentElement(), "Links" ).childNodes();
+	QDomNodeList list;
+	QDomNode n;
+	bool hit = true;
+	list = genTag ( doc->documentElement(), "Links" ).childNodes();
 
-	for (cnt=0;cnt<l.size();cnt++)
+	while(hit)
 	{
-		if( ! l.at(cnt).toElement().hasAttribute("name"))
+		hit = false;
+		for (cnt=0;cnt<list.size();cnt++)
 		{
-			*tmpE = l.at(cnt).toElement();
-			found = true;
+			if( ! list.at(cnt).toElement().hasAttribute("name"))
+			{
+				n = genTag(doc->documentElement(), "Links").appendChild(doc->createElement("Link"));
+				n.toElement().setAttribute("data", list.at(cnt).toElement().attribute("data"));
+				n.toElement().setAttribute("type", list.at(cnt).toElement().attribute("type"));
+				n.toElement().setAttribute("name", list.at(cnt).nodeName());
+				
+				genTag(doc->documentElement(), "Links").removeChild(list.at(cnt));
+				hit = true;
+			}
 		}
 	}
-	if(found) return true;
-	else return false;
-*/
 }
 
 bool ConfigHandler::findLink(QString name)
@@ -207,27 +215,37 @@ int ConfigHandler::loadReloadInterval()
 }
 
 //Links////////////////////////////////////////////////////////////////////////////
+
+void ConfigHandler::createLink(QString name)
+{
+	QDomNode n = genTag(doc->documentElement(), "Links").appendChild(doc->createElement("Link"));
+	n.toElement().setAttribute("name", name);
+	findLink(name);
+}
+
 void ConfigHandler::saveLink(Link l)
 {
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("name", l.name);
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("data", qCompress(l.url.toString().toAscii()).toHex().data());
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("type", qCompress(l.widgetType.toAscii()).toHex().data());
-
+	if(!findLink(l.name)) createLink(l.name);
+	tmpE->toElement().setAttribute("name", l.name);
+	tmpE->toElement().setAttribute("data", qCompress(l.url.toString().toAscii()).toHex().data());
+	tmpE->toElement().setAttribute("type", qCompress(l.widgetType.toAscii()).toHex().data());
 }
 void ConfigHandler::saveLink(QString name, QUrl u, QString widgetType)
 {
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("name", name);
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("data", qCompress(u.toString().toAscii()).toHex().data());
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("type", qCompress(widgetType.toAscii()).toHex().data());
+	if(!findLink(name)) createLink(name);
+	tmpE->toElement().setAttribute("name", name);
+	tmpE->toElement().setAttribute("data", qCompress(u.toString().toAscii()).toHex().data());
+	tmpE->toElement().setAttribute("type", qCompress(widgetType.toAscii()).toHex().data());
 }
 
 void ConfigHandler::saveLink(QString name, QString url, QString userName, QString pass, QString widgetType)
 {
 	QUrl u = url;
 	u.setUserInfo(QString("%1:%2").arg(userName).arg(pass));
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("name", name);
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("data", qCompress(u.toString().toAscii()).toHex().data());
-	genTag ( genTag ( doc->documentElement(), "Links" ), "Link").setAttribute("type", qCompress(widgetType.toAscii()).toHex().data());
+	if(!findLink(name)) createLink(name);
+	tmpE->toElement().setAttribute("name", name);
+	tmpE->toElement().setAttribute("data", qCompress(u.toString().toAscii()).toHex().data());
+	tmpE->toElement().setAttribute("type", qCompress(widgetType.toAscii()).toHex().data());
 }
 
 void ConfigHandler::loadLink(QList<Link> *l)
