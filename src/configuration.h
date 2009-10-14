@@ -52,6 +52,7 @@ private:
 	bool findLink(QString);
 	QDomNode* findLinkR(QString);
 	int cnt;
+	void repairLinks();
 public:
 	ConfigHandler(QString, QString);
 	virtual ~ConfigHandler();

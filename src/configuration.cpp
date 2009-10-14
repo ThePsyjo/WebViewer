@@ -101,6 +101,25 @@ QString ConfigHandler::loadStyleSheet()
 	return genTag(doc->documentElement(), "Style").text();
 }
 
+void ConfigHandler::repairLinks()
+{
+/*
+	QDomNodeList l;
+	l = genTag ( doc->documentElement(), "Links" ).childNodes();
+
+	for (cnt=0;cnt<l.size();cnt++)
+	{
+		if( ! l.at(cnt).toElement().hasAttribute("name"))
+		{
+			*tmpE = l.at(cnt).toElement();
+			found = true;
+		}
+	}
+	if(found) return true;
+	else return false;
+*/
+}
+
 bool ConfigHandler::findLink(QString name)
 {
 	QDomNodeList l;
