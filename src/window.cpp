@@ -97,6 +97,7 @@ MainWindow::MainWindow( QWidget * parent, Qt::WFlags f)
 void MainWindow::onStyleMenu(QAction* a)
 {
 	QApplication::setStyle(QStyleFactory::create(a->text()));
+	setStyle(QStyleFactory::create(a->text()));
 	config->saveStyle(a->text());
 }
 
