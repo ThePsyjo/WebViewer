@@ -38,7 +38,7 @@ int main(int argc, char ** argv)
 	app->installTranslator(&translator);
 	app->setWindowIcon(QIcon(":/appicon"));
 	app->setApplicationName("WebViewer");
-	app->setApplicationVersion("0.4.4.1");
+        app->setApplicationVersion("0.4.4.2");
 	app->setQuitOnLastWindowClosed(false);
 	
 	MainWindow win;
