@@ -34,7 +34,7 @@ NagVisWidget::~NagVisWidget()
 void NagVisWidget::reload()
 {
 	// set url including widgetsize
-	*url = QString("%1&width=%2&height=%3").arg(urlString).arg(width()-15).arg(height()-25);
+	*url = QString("%1&width=%2&height=%3").arg(urlString).arg(width()/webView->zoomFactor()-15).arg(height()/webView->zoomFactor()-25);
 	url->setUserName(un);
 	url->setPassword(pa);
 
