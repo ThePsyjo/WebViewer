@@ -1,6 +1,6 @@
 
 /************************************************************************
- * main.cpp								*
+ * trayManager.h							*
  * Copyright (C) 2008,2009  Psyjo					*
  *									*
  * This program is free software; you can redistribute it and/or modify	*
@@ -17,31 +17,44 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>. *
  ************************************************************************/
 
-#include <QApplication>
-#include <QTranslator>
-#include <QMessageBox>
-#include <QLocale>
-#include "window.h"
+#ifndef TRAYMANAGER_H
+#define TRAYMANAGER_H
 
-int main(int argc, char ** argv)
+#include <QSystemTrayIcon>
+#include <QMap>
+#include <QStack>
+#include "configuration.h"
+
+/*!
+ * \brief Containerklasse für Systemtraypopups.
+ */
+class MessageData
 {
-	QApplication *app = new QApplication( argc, argv );
-	QTranslator translator;
-	
-	if(! translator.load(":/" + QLocale::languageToString(QLocale::system().language())))
-		if(! translator.load(":/en.qm"))
-		{
-			QMessageBox::critical(NULL, "Error", "Something went wrong while loading language. See project-site if there are any updates.");
-			return 1;
-		}
+public:
+	QString title, message;
+	QSystemTrayIcon::MessageIcon icon;
+	int time;
+};
 
-	app->installTranslator(&translator);
-	app->setWindowIcon(QIcon(":/appicon"));
-	app->setApplicationName("WebViewer");
-        app->setApplicationVersion("0.4.5");
-	app->setQuitOnLastWindowClosed(false);
-	
-	MainWindow win;
+/*!
+ * \brief WrapperKlasse um SystemTrayPopups zu stapeln und nacheinander auszugeben.
+ */
+class TrayManager : public QObject
+{
+Q_OBJECT
+public:
+	TrayManager(ConfigHandler*, QSystemTrayIcon*);
+	virtual ~TrayManager();
+private:
+	QSystemTrayIcon *trayIcon;
+	ConfigHandler *config;
+	QStack<MessageData> *messageStack;
+	void checkMessageStack();
+	bool busy;
+private slots:
+	void freeStack();
+public slots:
+	void showMessage(QString, QString, QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information, int time = 10000 );
+};
 
-	return app->exec();
-}
+#endif

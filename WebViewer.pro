@@ -35,7 +35,8 @@ HEADERS +=	src/window.h \
 		src/nmsWidget.h \
 		src/genericWidget.h \
 		src/configuration.h \
-		src/linkInput.h
+		src/linkInput.h \
+		src/trayManager.h
 SOURCES += src/main.cpp \
            src/window.cpp \
 	   src/webWidget.cpp \
@@ -43,7 +44,8 @@ SOURCES += src/main.cpp \
 	   src/nmsWidget.cpp \
 	   src/genericWidget.cpp \
 	   src/configuration.cpp \
-	   src/linkInput.cpp
+	   src/linkInput.cpp \
+	   src/trayManager.cpp
 
 TRANSLATIONS += src/German.ts src/en.ts
 RESOURCES += res/res.qrc

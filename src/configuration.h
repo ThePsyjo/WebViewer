@@ -66,6 +66,15 @@ public:
 	bool loadIsVisible();
 	void saveIsVisible(bool);
 
+	bool loadOntop();
+	void saveOntop(bool);
+
+	bool loadShowTray();
+	void saveShowTray(bool);
+
+	bool loadCloseToTray();
+	void saveCloseToTray(bool);
+
 	void saveState(QByteArray);
 	QByteArray loadState();
 
@@ -77,6 +86,9 @@ public:
 	void saveLink(QString, QString, QString, QString, QString);
 	void loadLink(QList<Link>*);
 	void delLink(QString);
+
+	bool loadCloseToTrayTip();
+	void saveCloseToTrayTip(bool);
 
 	QSize loadWinSize();
 	void saveWinSize(QSize);

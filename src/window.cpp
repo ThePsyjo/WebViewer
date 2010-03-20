@@ -73,9 +73,32 @@ MainWindow::MainWindow( QWidget * parent, Qt::WFlags f)
 	mOption = menuBar()->addMenu(tr("&Options"));
 	mOption->addAction(tr("reloadinterval"), this, SLOT(handleReloadTime()), Qt::Key_F8);
 	mOption->addAction(tr("add link"), this, SLOT(handleNewLink()), Qt::Key_F6);
+	mOption->addSeparator();
+
+	ontopAction = new QAction(tr("always on &top"), this);
+	showTrayAction = new QAction(tr("show tray &icon"), this);
+	closeToTrayAction = new QAction(tr("close to &tray"), this);
+
+	ontopAction->setCheckable(true);
+	showTrayAction->setCheckable(true);
+	closeToTrayAction->setCheckable(true);
+
+	showTrayAction->setChecked(config->loadShowTray());
+	ontopAction->setChecked(config->loadOntop());
+	closeToTrayAction->setChecked(config->loadCloseToTray());
+
+	connect(ontopAction, SIGNAL(toggled(bool)), this, SLOT(onOntopAction(bool)));
+	connect(showTrayAction, SIGNAL(toggled(bool)), this, SLOT(onShowTrayAction(bool)));
+	connect(closeToTrayAction, SIGNAL(toggled(bool)), this, SLOT(onCloseToTrayAction(bool)));
+	
+	mOption->addAction(ontopAction);
+	mOption->addAction(showTrayAction);
+	mOption->addAction(closeToTrayAction);
+	mOption->addSeparator();
 	mOption->addMenu(mStyle);
 
 	trayIcon = new QSystemTrayIcon(QIcon(":/appicon"), this);
+	trayMgr = new TrayManager (config, trayIcon);
 	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(handleTrayIcon(QSystemTrayIcon::ActivationReason)));
 	trayIcon->show();
 
@@ -172,11 +195,41 @@ void MainWindow::handleExit()
 	QApplication::exit();
 }
 
+//! Reaktion auf Fentser-schließen-X, ALT+F4 o.Ä.
 void MainWindow::closeEvent ( QCloseEvent *event )
 {
 	config->saveWinSize(size());
-        event->accept();
-	// dummy, close win and do nothing else
+	// tray is visible -> close to tray
+	// else close app
+	if(trayIcon->isVisible())
+		event->accept();
+	else
+	{
+		QApplication::exit();
+		return;
+	}
+	// if close-to-tray is set, do so
+	if(config->loadCloseToTray())
+		event->accept();
+	else
+	{
+		QApplication::exit();
+		return;
+	}
+	// save this state
+	trayIcon->isVisible() ? config->saveIsVisible(false) : config->saveIsVisible(true);
+
+	if(config->loadCloseToTray() && trayIcon->isVisible())
+	{
+		if(config->loadCloseToTrayTip())
+		{
+			connect(trayIcon, SIGNAL(messageClicked()), this, SLOT(handleMinimizedTip()));
+			// watch for click on message
+			QTimer::singleShot(10000, this, SLOT(disconnectMinimizedTip()));
+			// disconnect watch after 10 secs
+			trayMgr->showMessage("", tr("%1 minimized.").arg(QApplication::applicationName()));
+		}
+	}
 }
 
 void MainWindow::handleReloadTime()
@@ -329,9 +382,47 @@ void MainWindow::handleAboutQtAction()
         QMessageBox::aboutQt ( this, tr("about"));
 }
 
+void MainWindow::onOntopAction(bool b)
+{
+	b ? setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint) : setWindowFlags(Qt::Dialog);
+	setWindowIcon(QIcon(":/appicon"));
+	show();
+	config->saveOntop(b);
+}
+
+void MainWindow::onShowTrayAction(bool b)
+{
+	b ? trayIcon->show() : trayIcon->hide();
+	config->saveShowTray(b);
+}
+
+void MainWindow::onCloseToTrayAction(bool b)
+{
+	config->saveCloseToTray(b);
+}
+//
+//! HilfsSlot
+void MainWindow::disconnectMinimizedTip() // is needed as slot, see top function
+{
+//	disconnect(trayIcon, SIGNAL(messageClicked()), 0, 0);
+	disconnect(trayIcon, 0, this, 0);
+}
+
+//! Reaktion auf klick auf Minimiert-Tipp
+void MainWindow::handleMinimizedTip()
+{
+	// buttons need to be localized
+	QMessageBox(	QMessageBox::Question,
+			tr("tip"),
+			tr("show this tip further ?"),
+			QMessageBox::Yes | QMessageBox::No,
+			this)
+	.exec() == QMessageBox::No ? config->saveCloseToTrayTip(0) : config->saveCloseToTrayTip(1);
+	disconnectMinimizedTip();
+}
+
 MainWindow::~MainWindow()
 {
 	config->saveState(saveState());
 	delete config;
 }
-

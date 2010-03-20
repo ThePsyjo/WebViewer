@@ -173,6 +173,59 @@ bool ConfigHandler::loadBool(QString tag, QString attribute, QString defaultValu
 {
 	return genTag ( doc->documentElement(), tag ).attribute(attribute, defaultValue).toInt();
 }
+
+//Visibility///////////////////////////////////////////////////////////////////////
+//! Sichtbarkeit des Hauptfensters speichern.
+void ConfigHandler::saveIsVisible(bool b)
+{
+	saveBool( "Options", "visible", b);
+}
+
+//! Sichtbarkeit des Hauptfensters laden.
+bool ConfigHandler::loadIsVisible()
+{
+	return loadBool( "Options", "visible", "1");
+}
+
+//ontop////////////////////////////////////////////////////////////////////////////
+//! Option 'immer im Vordergung' speichern.
+void ConfigHandler::saveOntop(bool b)
+{
+	saveBool( "Options", "ontop", b);
+}
+
+//! Option 'immer im Vordergung' laden.
+bool ConfigHandler::loadOntop()
+{
+	return loadBool( "Options", "ontop", "0");
+}
+
+//ShowTray////////////////////////////////////////////////////////////////////////
+//! Option 'TraySymbol anzeigen' speichern.
+void ConfigHandler::saveShowTray(bool b)
+{
+	saveBool( "Options", "tray_visible", b);
+}
+
+//! Option 'TraySymbol anzeigen' laden.
+bool ConfigHandler::loadShowTray()
+{
+	return loadBool( "Options", "tray_visible", "1");
+}
+
+//CloseToTray//////////////////////////////////////////////////////////////////////
+//! Option 'in SystemTray schließen' speichern.
+void ConfigHandler::saveCloseToTray(bool b)
+{
+	saveBool( "Options", "close2tray", b);
+}
+
+//! Option 'in SystemTray schließen' laden.
+bool ConfigHandler::loadCloseToTray()
+{
+	return loadBool( "Options", "close2tray", "1");
+}
+
 //widgetState//////////////////////////////////////////////////////////////////////
 void ConfigHandler::saveState(QByteArray d)
 {	
@@ -190,8 +243,20 @@ QByteArray ConfigHandler::loadState()
 	return ba;
 }
 
-//WidgetSize///////////////////////////////////////////////////////////////////////
+//CloseToTrayTip///////////////////////////////////////////////////////////////////
+//! Option 'in SystemTray schlieÃen - Tipp' speichern.
+void ConfigHandler::saveCloseToTrayTip(bool b)
+{
+	saveBool( "Options", "close2trayTip", b);
+}
 
+//! Option 'in SystemTray schlieÃen - Tipp' laden.
+bool ConfigHandler::loadCloseToTrayTip()
+{
+	return loadBool( "Options", "close2trayTip", "1");
+}
+
+//WidgetSize///////////////////////////////////////////////////////////////////////
 void ConfigHandler::saveWinSize(QSize s)
 {	
 	genTag ( doc->documentElement(), "WindowSettings" ).setAttribute("height", s.rheight());

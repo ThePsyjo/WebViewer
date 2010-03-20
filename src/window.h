@@ -39,6 +39,7 @@
 #include "genericWidget.h"
 #include "configuration.h"
 #include "linkInput.h"
+#include "trayManager.h"
 
 class MainWindow : public QMainWindow
 {
@@ -55,9 +56,10 @@ private:
 	QWidget *dummy;
 	QStack<WebWidget*> *reloadStack;
 	QTimer *reloadTimer, *statTimer;
-	QAction *reloadAction;
+	QAction *ontopAction, *showTrayAction, *closeToTrayAction, *reloadAction;
 	QMenu *mAction, *trayIconMenu, *mAbout;
 	QSystemTrayIcon *trayIcon;
+	TrayManager *trayMgr;
 	QProgressBar *pBar;
 	QStatusBar *statusBar;
 	QMenu *mOption, *mStyle;
@@ -79,6 +81,11 @@ private slots:
 	void handleNewLink();
 	void handleAboutAppAction();
 	void handleAboutQtAction();
+	void onOntopAction(bool);
+	void onShowTrayAction(bool);
+	void onCloseToTrayAction(bool);
+	void handleMinimizedTip();
+	void disconnectMinimizedTip();
 };
 
 #endif
