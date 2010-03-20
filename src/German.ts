@@ -4,12 +4,12 @@
 <context>
     <name>ConfigHandler</name>
     <message>
-        <location filename="configuration.cpp" line="45"/>
+        <location filename="configuration.cpp" line="46"/>
         <source>parse error</source>
         <translation>Parser Fehler</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="46"/>
+        <location filename="configuration.cpp" line="47"/>
         <source>Parse error in file %4:
 at line %1, column %2:
 &quot;%3&quot;
@@ -22,7 +22,7 @@ auf Zeile %1, Spalte %2:
 Konfiguration wird nicht geschrieben</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="58"/>
+        <location filename="configuration.cpp" line="59"/>
         <source>%1 created in %2.</source>
         <translation>%1 erstellt in %2.</translation>
     </message>
@@ -30,67 +30,67 @@ Konfiguration wird nicht geschrieben</translation>
 <context>
     <name>LinkInput</name>
     <message>
-        <location filename="linkInput.cpp" line="89"/>
+        <location filename="linkInput.cpp" line="90"/>
         <source>manage links</source>
         <translation>Links verwalten</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="108"/>
+        <location filename="linkInput.cpp" line="109"/>
         <source>userName</source>
         <translation>Nutzername</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="109"/>
+        <location filename="linkInput.cpp" line="110"/>
         <source>password</source>
         <translation>Passwort</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="110"/>
+        <location filename="linkInput.cpp" line="111"/>
         <source>Url</source>
         <translation>Adresse</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="111"/>
+        <location filename="linkInput.cpp" line="112"/>
         <source>widgetType</source>
         <translation>Fenstertyp</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="112"/>
+        <location filename="linkInput.cpp" line="113"/>
         <source>widgetName</source>
         <translation>Fenstername</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="124"/>
+        <location filename="linkInput.cpp" line="125"/>
         <source>&amp;new</source>
         <translation>&amp;Neu</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="125"/>
+        <location filename="linkInput.cpp" line="126"/>
         <source>&amp;del</source>
         <translation>&amp;Löschen</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="126"/>
+        <location filename="linkInput.cpp" line="127"/>
         <source>&amp;save</source>
         <translation>&amp;Speichern</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="127"/>
+        <location filename="linkInput.cpp" line="128"/>
         <source>&amp;finish</source>
         <translation>&amp;Fertig</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="179"/>
+        <location filename="linkInput.cpp" line="180"/>
         <source>insert URL here</source>
         <translation>Adresse hier eingeben</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="212"/>
+        <location filename="linkInput.cpp" line="213"/>
         <source>del_link</source>
         <translation>Link löschen</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="213"/>
+        <location filename="linkInput.cpp" line="214"/>
         <source>ask_del_link %1 ?</source>
         <translation>Link %1 löschen ?</translation>
     </message>
@@ -133,25 +133,55 @@ Konfiguration wird nicht geschrieben</translation>
         <translation>Links verwalten</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="83"/>
+        <location filename="window.cpp" line="78"/>
+        <source>always on &amp;top</source>
+        <translation>immer im &amp;Vordergrund</translation>
+    </message>
+    <message>
+        <location filename="window.cpp" line="79"/>
+        <source>show tray &amp;icon</source>
+        <translation>zeige Tray &amp;Symbol</translation>
+    </message>
+    <message>
+        <location filename="window.cpp" line="80"/>
+        <source>close to &amp;tray</source>
+        <translation>in Systemtray &amp;schließen</translation>
+    </message>
+    <message>
+        <location filename="window.cpp" line="106"/>
         <source>exit</source>
         <translation>Ende</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="86"/>
+        <location filename="window.cpp" line="109"/>
         <source>&amp;about</source>
         <translation>Ü&amp;ber</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="323"/>
-        <location filename="window.cpp" line="328"/>
+        <location filename="window.cpp" line="230"/>
+        <source>%1 minimized.</source>
+        <translation>%1 minimiert.</translation>
+    </message>
+    <message>
+        <location filename="window.cpp" line="377"/>
+        <location filename="window.cpp" line="382"/>
         <source>about</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="window.cpp" line="323"/>
+        <location filename="window.cpp" line="377"/>
         <source>&lt;html&gt;%1 %2&lt;br&gt;&lt;br&gt;Copyright (C) 2009 Psyjo&lt;br&gt;&lt;br&gt;&lt;br&gt;This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;br&gt;&lt;br&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;br&gt;See the GNU General Public License for more details.&lt;br&gt;&lt;br&gt;You should have received a copy of the GNU General Public License along with this program; if not, see &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;this link&lt;/a&gt;.&lt;/html&gt;</source>
         <translation>&lt;html&gt;%1 %2&lt;br&gt;&lt;br&gt;Copyright (C) 2009  Psyjo&lt;br&gt;&lt;br&gt;&lt;a href=&quot;http://github.com/ThePsyjo/WebViewer&quot;&gt;Projektseite&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;Dieses Programm ist freie Software. Sie können es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version.&lt;br&gt;&lt;br&gt;Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License.&lt;br&gt;&lt;br&gt;Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe &lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;diesen Link&lt;/a&gt;.&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="window.cpp" line="416"/>
+        <source>tip</source>
+        <translation>Tipp</translation>
+    </message>
+    <message>
+        <location filename="window.cpp" line="417"/>
+        <source>show this tip further ?</source>
+        <translation>Diesen Tip weiterhin anzeigen ?</translation>
     </message>
 </context>
 <context>
@@ -162,17 +192,17 @@ Konfiguration wird nicht geschrieben</translation>
         <translation>neues Fenster</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="41"/>
+        <location filename="linkInput.cpp" line="42"/>
         <source>&amp;cancel</source>
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="55"/>
+        <location filename="linkInput.cpp" line="56"/>
         <source>insert_widgetname_here</source>
         <translation>Fenstername hier eingeben</translation>
     </message>
     <message>
-        <location filename="linkInput.cpp" line="63"/>
+        <location filename="linkInput.cpp" line="64"/>
         <source>name_exists</source>
         <translation>Name existiert bereits</translation>
     </message>
